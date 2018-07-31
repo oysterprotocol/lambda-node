@@ -19,7 +19,7 @@ service: lambda-node
 
 provider:
   name: aws
-  runtime: go1.x
+  runtime: go1.10.x
 
 # you can overwrite defaults here
 #  stage: dev
