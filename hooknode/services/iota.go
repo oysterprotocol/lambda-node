@@ -28,7 +28,7 @@ func AttachAndBroadcast(provider string, chunks *[]IotaChunk) error {
 		addr, err := giota.ToAddress(chunk.Address)
 		msg, err := giota.ToTrytes(chunk.Message)
 		if err != nil {
-			return nil
+			return err
 		}
 
 		trs[i] = giota.Transfer{
