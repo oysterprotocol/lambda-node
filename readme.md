@@ -4,7 +4,7 @@ The brokernode leverages [AWS Lambda](https://aws.amazon.com/lambda/) to offload
 
 # Setup
 
-The lambda node uses the {serverless framework](https://serverless.com/framework/docs/providers/aws/guide/quick-start/).
+The lambda node uses the [serverless framework](https://serverless.com/framework/docs/providers/aws/guide/quick-start/).
 
 To install the command line tools, run:
 
