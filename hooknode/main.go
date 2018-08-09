@@ -14,13 +14,13 @@ type hooknodeReq struct {
 }
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	// TODO: Validate params.
-
 	// Parse request body.
 	var req hooknodeReq
 	if err := json.Unmarshal([]byte(request.Body), &req); err != nil {
 		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 200}, nil
 	}
+
+	// TODO: Validate params.
 
 	// PoW + Broadcast
 	if err := services.AttachAndBroadcast(req.Provider, &req.Chunks); err != nil {

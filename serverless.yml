@@ -46,19 +46,19 @@ provider:
 #    variable1: value1
 
 package:
- exclude:
-   - ./**
- include:
-   - ./bin/**
+  exclude:
+    - ./**
+  include:
+    - ./bin/**
 
 functions:
   hooknode:
     handler: bin/hooknode
     events:
-    - http:
-      path: /storeAndBroadcast
-      method: post
-      cors: true
+      - http:
+          path: /storeAndBroadcast
+          method: post
+          cors: true
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
