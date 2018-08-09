@@ -56,7 +56,7 @@ functions:
     handler: bin/hooknode
     events:
       - http:
-          path: /attach-and-broadcase
+          path: /attach-and-broadcast
           method: post
           cors: true
 
