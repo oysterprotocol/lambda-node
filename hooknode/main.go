@@ -1,19 +1,35 @@
 package main
 
 import (
+	"encoding/json"
+
+	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/oysterprotocol/lambda-node/hooknode/services"
 )
 
-type Response struct {
-	Message string `json:"message"`
+type hooknodeReq struct {
+	Provider string               `json:"provider"`
+	Chunks   []services.IotaChunk `json:"chunks"`
 }
 
-func Handler() (Response, error) {
-	return Response{
-		Message: "Go Serverless v1.0! Your function executed successfully!",
-	}, nil
+func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	// Parse request body.
+	var req hooknodeReq
+	if err := json.Unmarshal([]byte(request.Body), &req); err != nil {
+		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 200}, nil
+	}
+
+	// TODO: Validate params.
+
+	// PoW + Broadcast
+	if err := services.AttachAndBroadcast(req.Provider, &req.Chunks); err != nil {
+		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 200}, nil
+	}
+
+	return events.APIGatewayProxyResponse{Body: "Success!", StatusCode: 200}, nil
 }
 
 func main() {
-	lambda.Start(Handler)
+	lambda.Start(handler)
 }
