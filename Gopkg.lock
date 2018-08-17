@@ -15,6 +15,22 @@
   version = "v1.2.0"
 
 [[projects]]
+  digest = "1:8722889ad027febfced94665914d1e7be8f1b703d31f2ef9461c59e4d40fe974"
+  name = "github.com/certifi/gocertifi"
+  packages = ["."]
+  pruneopts = ""
+  revision = "deb3ae2ef2610fde3330947281941c562861188b"
+  version = "2018.01.18"
+
+[[projects]]
+  branch = "master"
+  digest = "1:92c1e8de853307765a902ee7b1b25ac7acf849f2b69215d9e974a911602eb15c"
+  name = "github.com/getsentry/raven-go"
+  packages = ["."]
+  pruneopts = ""
+  revision = "7535a8fa2ace0ffb684b19f28d00655459ea2dae"
+
+[[projects]]
   branch = "master"
   digest = "1:6389346d812996a03b1d518b4455af9a0e0e1ca80ef5d7a6edc714d1fd71cdcc"
   name = "github.com/iotaledger/giota"
@@ -24,6 +40,14 @@
   ]
   pruneopts = ""
   revision = "247cc43f1cd41fc4761eba285dc72dce945d7d99"
+
+[[projects]]
+  digest = "1:7365acd48986e205ccb8652cc746f09c8b7876030d53710ea6ef7d0bd0dcd7ca"
+  name = "github.com/pkg/errors"
+  packages = ["."]
+  pruneopts = ""
+  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
+  version = "v0.8.0"
 
 [[projects]]
   branch = "master"
@@ -39,6 +63,7 @@
   input-imports = [
     "github.com/aws/aws-lambda-go/events",
     "github.com/aws/aws-lambda-go/lambda",
+    "github.com/getsentry/raven-go",
     "github.com/iotaledger/giota",
   ]
   solver-name = "gps-cdcl"

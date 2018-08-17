@@ -27,3 +27,7 @@
 [[constraint]]
   branch = "master"
   name = "github.com/iotaledger/giota"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/getsentry/raven-go"
