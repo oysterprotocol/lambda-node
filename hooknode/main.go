@@ -19,7 +19,12 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	// Parse request body.
 	var req hooknodeReq
 	if err := json.Unmarshal([]byte(request.Body), &req); err != nil {
-		raven.CaptureError(err, nil)
+		raven.CaptureError(err, map[string]string{
+			"Body":       request.Body,
+			"Resource":   request.Resource,
+			"Path":       request.Path,
+			"HTTPMethod": request.HTTPMethod,
+		})
 		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 500}, nil
 	}
 

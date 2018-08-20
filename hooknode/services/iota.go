@@ -19,7 +19,7 @@ func AttachAndBroadcast(provider string, chunks *[]IotaChunk) error {
 	// TODO: Add logging to segment so we know what's going on.
 
 	api := giota.NewAPI(provider, nil)
-	oysterTag, _ := giota.ToTrytes("OYSTERGOLANG")
+	oysterTag, _ := giota.ToTrytes("OYSTERHOOKNODE")
 	_, powFn := giota.GetBestPoW() // Log powName.
 
 	// Map chunks to giota.Transfer
