@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"os"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -15,42 +14,14 @@ type hooknodeReq struct {
 	Chunks   []services.IotaChunk `json:"chunks"`
 }
 
-func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	// Parse request body.
-	var req hooknodeReq
-	if err := json.Unmarshal([]byte(request.Body), &req); err != nil {
-		raven.CaptureError(err, nil)
-
-		payload, _ := json.Marshal(request)
-		payloadStr, _ := json.MarshalIndent(map[string]string{
-			"error":   err.Error(),
-			"payload": string(payload),
-		}, "", "    ")
-
-		return events.APIGatewayProxyResponse{
-			Body: string(payloadStr), StatusCode: 501,
-		}, nil
-
-		// return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 500}, nil
-	}
-
+func handler(req hooknodeReq) (events.APIGatewayProxyResponse, error) {
 	// TODO: Validate params.
 
 	// PoW + Broadcast
 	if err := services.AttachAndBroadcast(req.Provider, &req.Chunks); err != nil {
 		raven.CaptureError(err, nil)
 
-		payload, _ := json.Marshal(request)
-		payloadStr, _ := json.MarshalIndent(map[string]string{
-			"error":   err.Error(),
-			"payload": string(payload),
-		}, "", "    ")
-
-		return events.APIGatewayProxyResponse{
-			Body: string(payloadStr), StatusCode: 502,
-		}, nil
-
-		// return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 500}, nil
+		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 500}, nil
 	}
 
 	return events.APIGatewayProxyResponse{Body: "Success!", StatusCode: 200}, nil
