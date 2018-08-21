@@ -19,13 +19,19 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	// Parse request body.
 	var req hooknodeReq
 	if err := json.Unmarshal([]byte(request.Body), &req); err != nil {
-		raven.CaptureError(err, map[string]string{
-			"Body":       request.Body,
-			"Resource":   request.Resource,
-			"Path":       request.Path,
-			"HTTPMethod": request.HTTPMethod,
-		})
-		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 500}, nil
+		raven.CaptureError(err, nil)
+
+		payload, _ := json.Marshal(request)
+		payloadStr, _ := json.MarshalIndent(map[string]string{
+			"error":   err.Error(),
+			"payload": string(payload),
+		}, "", "    ")
+
+		return events.APIGatewayProxyResponse{
+			Body: string(payloadStr), StatusCode: 501,
+		}, nil
+
+		// return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 500}, nil
 	}
 
 	// TODO: Validate params.
@@ -33,7 +39,18 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	// PoW + Broadcast
 	if err := services.AttachAndBroadcast(req.Provider, &req.Chunks); err != nil {
 		raven.CaptureError(err, nil)
-		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 500}, nil
+
+		payload, _ := json.Marshal(request)
+		payloadStr, _ := json.MarshalIndent(map[string]string{
+			"error":   err.Error(),
+			"payload": string(payload),
+		}, "", "    ")
+
+		return events.APIGatewayProxyResponse{
+			Body: string(payloadStr), StatusCode: 502,
+		}, nil
+
+		// return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 500}, nil
 	}
 
 	return events.APIGatewayProxyResponse{Body: "Success!", StatusCode: 200}, nil
