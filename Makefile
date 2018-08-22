@@ -5,3 +5,7 @@ build:
 deploy:
 	make build
 	serverless deploy -v
+
+deploy-prod:
+	make build
+	serverless deploy -v  --stage production
