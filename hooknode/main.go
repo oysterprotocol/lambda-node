@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"runtime"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -28,6 +29,10 @@ func handler(req hooknodeReq) (events.APIGatewayProxyResponse, error) {
 }
 
 func main() {
+	// Allow running on multiple cores. Kinda weird that this is manual?
+	// https://golang.org/pkg/runtime/#GOMAXPROCS
+	runtime.GOMAXPROCS(runtime.NumCPU())
+
 	raven.SetDSN(os.Getenv("SENTRY_DSN"))
 
 	raven.CapturePanic(func() {
