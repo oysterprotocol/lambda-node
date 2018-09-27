@@ -26,6 +26,9 @@ func AttachAndBroadcast(provider string, chunks *[]IotaChunk) error {
 	trs := make([]giota.Transfer, len(*chunks))
 	for i, chunk := range *chunks {
 		addr, err := giota.ToAddress(chunk.Address)
+		if err != nil {
+			return err
+		}
 		msg, err := giota.ToTrytes(chunk.Message)
 		if err != nil {
 			return err
@@ -44,10 +47,5 @@ func AttachAndBroadcast(provider string, chunks *[]IotaChunk) error {
 		return err
 	}
 
-	err = giota.SendTrytes(api, depth, []giota.Transaction(bd), mwm, powFn)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return giota.SendTrytes(api, depth, []giota.Transaction(bd), mwm, powFn)
 }
