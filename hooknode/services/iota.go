@@ -6,7 +6,7 @@ const seed = giota.Trytes("OYSTERPRLOYSTERPRLOYSTERPRLOYSTERPRLOYSTERPRLOYSTERPR
 const security = 1
 const value = int64(0)
 const depth = int64(1)
-const mwm = int64(9)
+const mwm = int64(6)
 
 type IotaChunk struct {
 	Address string `json:"address"`
