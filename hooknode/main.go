@@ -1,6 +1,7 @@
 package main
 
 import (
+        "log"
 	"os"
 	"runtime"
 
@@ -17,7 +18,8 @@ type hooknodeReq struct {
 
 func handler(req hooknodeReq) (events.APIGatewayProxyResponse, error) {
 	// TODO: Validate params.
-
+	log.Printf("Handler request: %s with %d of chunks\n", req.Provider, len(req.Chunks))
+	
 	// PoW + Broadcast
 	if err := services.AttachAndBroadcast(req.Provider, &req.Chunks); err != nil {
 		raven.CaptureError(err, nil)
