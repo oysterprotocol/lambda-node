@@ -1,0 +1,16 @@
+sudo: required
+language: go
+
+go:
+  - master
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get -y install build-essential
+  - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+
+install:
+  - dep ensure
+
+script:
+  - make build
