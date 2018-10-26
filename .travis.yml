@@ -1,6 +1,5 @@
 sudo: required
 language: go
-
 go:
   - master
 
@@ -14,3 +13,7 @@ install:
 
 script:
   - make build
+
+notifications:
+  slack:
+    secure: m+EqSC4/FJXzn3nMNXtLucU022fK96XBf6zee6ey3jA48RmvJnnwZT5VFVFjdUINl0Ud3OSQl55I9JpVVjJ6Rq/w48qYAa0PDHd1y6291DuDmLdhB1+NfFaxQqU879Q6/odBIi9f28V55z8vdfYmlCRwqG5CZu11+N54PSdlSvxedfgE4EQY22LLGQixcuTFtgWb1Iscd8FOgO45sHNa+v6/E5ylWpKQAZgT9/25HkqJEJQXm5Tobjx1QTMvWRqhaF7F2mlePiY8ZDEdHgiM1PwYG5PejIOed3Qg9kD5AR+RQRYeKwPPTokvGObkQLqUaWzucnXUfkjcF8F2IV3VSREBZsIQPpYrXgm0W9SertfgrXM7dO/rrR+qAVyTtWnMvWHk8lcBHir1wwZZKV/EmEt13O4QWRF2D6xhqX7XffY3xPIrUF/1xfncratvC8Pq3b7MoFDH1WDPde62EeHC0cqQGwHQ+GK1b0T2xFIMXZDQVEEiz5Q5wtcv9aQ4ZiyQpEczTav6UFo8bJPZ+2227PFeLn/SXSdf3adxQLVOCh/aclQ8liuF/r4Qk0wr5TioaIm/jwsJTUfFm23BHBmOVpI6j7w6My+Y+uQQduI+zTq/o5Aa9bv0lo2+5ve+tQKay8rnREssWYe9rWKG0cWrTi9G5VinTwvdybxG1I6QJAY=
