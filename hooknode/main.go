@@ -19,7 +19,7 @@ func handler(req types.HooknodeReq) (events.APIGatewayProxyResponse, error) {
 	var chkStore types.ChunkStore
 	switch req.StoreType {
 	case "s3":
-		chkStore = &services.Iota{} // TODO: s3 adapter
+		chkStore = &services.S3{}
 	default:
 		chkStore = &services.Iota{}
 	}

@@ -17,8 +17,12 @@ type HooknodeReq struct {
 type IotaChunk struct {
 	Address string `json:"address"`
 	Value   int    `json:"value"`
-	Message string `json:"message"`
 	Tag     string `json:"tag"`
+
+	// The following should be a discriminated union; only 1 will be non-null.
+	// Maybe in Go 2.0 https://github.com/golang/go/issues/19412
+	Message  string `json:"message"`
+	StoreUrl string `json:"storeUrl"`
 }
 
 type ChunkStore interface {
