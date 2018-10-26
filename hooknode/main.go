@@ -1,7 +1,7 @@
 package main
 
 import (
-        "log"
+	"log"
 	"os"
 	"runtime"
 
@@ -9,21 +9,26 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	raven "github.com/getsentry/raven-go"
 	"github.com/oysterprotocol/lambda-node/hooknode/services"
+	"github.com/oysterprotocol/lambda-node/hooknode/types"
 )
 
-type hooknodeReq struct {
-	Provider string               `json:"provider"`
-	Chunks   []services.IotaChunk `json:"chunks"`
-}
-
-func handler(req hooknodeReq) (events.APIGatewayProxyResponse, error) {
+func handler(req types.HooknodeReq) (events.APIGatewayProxyResponse, error) {
 	// TODO: Validate params.
 	log.Printf("Handler request: %s with %d of chunks\n", req.Provider, len(req.Chunks))
-	
-	// PoW + Broadcast
-	if err := services.AttachAndBroadcast(req.Provider, &req.Chunks); err != nil {
-		raven.CaptureError(err, nil)
 
+	var chkStore types.ChunkStore
+	switch req.StoreType {
+	case "s3":
+		chkStore = &services.Iota{} // TODO: s3 adapter
+	default:
+		chkStore = &services.Iota{}
+	}
+
+	chunks := chkStore.AdaptReqChunks(req.Chunks)
+
+	// PoW + Broadcast
+	if err := services.AttachAndBroadcast(req.Provider, &chunks); err != nil {
+		raven.CaptureError(err, nil)
 		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 500}, nil
 	}
 

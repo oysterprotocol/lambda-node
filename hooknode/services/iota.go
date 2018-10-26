@@ -1,6 +1,9 @@
 package services
 
-import "github.com/iotaledger/giota"
+import (
+	"github.com/iotaledger/giota"
+	"github.com/oysterprotocol/lambda-node/hooknode/types"
+)
 
 const seed = giota.Trytes("OYSTERPRLOYSTERPRLOYSTERPRLOYSTERPRLOYSTERPRLOYSTERPRLOYSTERPRLOYSTERPRLOYSTERPRL")
 const security = 1
@@ -8,14 +11,24 @@ const value = int64(0)
 const depth = int64(1)
 const mwm = int64(6)
 
-type IotaChunk struct {
-	Address string `json:"address"`
-	Value   int    `json:"value"`
-	Message string `json:"message"`
-	Tag     string `json:"tag"`
+type Iota struct{}
+
+// ChunkStore interface
+func (i *Iota) AdaptReqChunks(chunks []types.ReqChunk) []types.IotaChunk {
+	result := make([]types.IotaChunk, len(chunks))
+	for i, reqChk := range chunks {
+		result[i] = types.IotaChunk{
+			Address: reqChk.Address,
+			Value:   reqChk.Value,
+			Message: reqChk.Message,
+			Tag:     reqChk.Tag,
+		}
+	}
+
+	return result
 }
 
-func AttachAndBroadcast(provider string, chunks *[]IotaChunk) error {
+func AttachAndBroadcast(provider string, chunks *[]types.IotaChunk) error {
 	// TODO: Add logging to segment so we know what's going on.
 
 	api := giota.NewAPI(provider, nil)
